@@ -11,12 +11,25 @@ Download the python scripts on this repositories master branch, for the respecti
 
 ## Environment
 Users only need to run the python script and have the following python libraries installed on their system
--pandas
--requests
--bs4
--BeautifulSoup
--sqlalchemy
--pyspark
+* pandas
+* requests 
+* bs4 
+* BeautifulSoup 
+* sqlalchemy 
+* pyspark 
+* selenium 
+
+
+## Features
+
+* User friendly language (python)
+* Supports user entered job searches
+* Simple installation and setup
+
+
+## Motivation
+There are serveral job boards that are updated seemingly by the minute. This makes it very difficult for users to search all of these boards and find jobs that suit their wants. With the tool developed, we allow users to enter a search parameter of a Job Title and ping the job board url, scraping the details of the results page and storing them in a MYSQL database that can be queried by the user as needed.
+
 
 ## Contributors
 Thanks to everyone who contributed. Tamaratonyor (Tammy) Ebufegha, Usigbe (Usi) Ataga, Cesar (Niyombofils) Niyomugabo, Yuchen (Jessica) Zhou
