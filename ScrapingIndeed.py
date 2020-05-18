@@ -25,6 +25,7 @@ count = 1
 
 readdf = pd.read_sql_table('Indeed', database_connection)
 tabledescriptions = readdf['Job_Work_Task'].to_list()
+urllists = readdf['URL'].to_list()
 
 for f in range(pagenums):
 	url = 'https://www.indeed.com/jobs?q={0}&start={1}'.format(searchval,f*10)
@@ -43,7 +44,7 @@ for f in range(pagenums):
 
 	for x in range(len(titlelist)):
 		df = pd.DataFrame({'Date': datelist[x],'Job_Title': titlelist[x].replace("\n",""),'Job_Work_Task' : descriptionlist[x].encode('utf-8'),'URL': linklist[x],'Organization': companylist[x].replace("\n","")},index=[count])
-		if descriptionlist[x].encode('utf-8') not in tabledescriptions:
+		if descriptionlist[x].encode('utf-8') not in tabledescriptions and linklist[x] not in urllists:
 			sdf = sqlContext.createDataFrame(df)
 			sdf.show()
 			df.to_sql(con=database_connection, name='Indeed', if_exists='append')
