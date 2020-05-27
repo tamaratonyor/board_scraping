@@ -7,9 +7,6 @@ import requests
 import pandas as pd
 import json
 import sqlalchemy
-import matplotlib.pyplot as plt
-from collections import Counter
-plt.style.use('fivethirtyeight')
 
 database_password = 'Password'
 database_ip = 'mydb.cqdk5nbfyybo.us-east-2.rds.amazonaws.com'
@@ -70,23 +67,15 @@ for x in locationlist:
 print(citylist)
 print(statelist)
 companylist = [element.text for element in soup.find_all("div","company")]
-#readdf = pd.read_sql_table('Monster', database_connection)
-#URLList = readdf['URL'].to_list()
+readdf = pd.read_sql_table('Monster', database_connection)
+URLList = readdf['URL'].to_list()
 
 #Creating the DataFrame and saving to Database
 for x in range(len(titlelist)):
 	pddf = pd.DataFrame({'Date': datelist[x], 'Job_Title': titlelist[x].replace("\n","").replace("\r",""), 'Company': companylist[x].replace("\n",""),'City': citylist[x], 'State' : statelist[x], 'URL': jobUrl[x].replace("\n",""), 'Country' : 'United States' ,'Search Parameter': myinput}, index=[x+1])
-	#if jobUrl[x] not in URLList:
-	pddf.to_sql(con=database_connection, name='Monster', if_exists='append')
-	#	URLList.append(jobUrl[x])
-
-readdf2 = pd.read_sql_table('Monster', database_connection)
-plt.bar(Counter((readdf2['Company']).tolist()).values(), Counter((readdf2['Company']).tolist()).keys())
-plt.xlabel("Number of Jobs")
-plt.ylabel("Job Title")
-plt.xticks(fontsize = 6)
-plt.title("Number of big data jobs for various Companies")
-plt.show()
+	if jobUrl[x] not in URLList:
+		pddf.to_sql(con=database_connection, name='Monster', if_exists='append')
+		URLList.append(jobUrl[x])
 
 
 
