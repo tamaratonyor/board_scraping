@@ -32,7 +32,6 @@ jobUrl = []
 for a in soup.find_all('a', href = True):
 	if "https://job-openings" in a['href']:
 		jobUrl.append(a['href'])
-print(jobUrl)
 
 
 #Accessing the Job Elements
@@ -44,11 +43,6 @@ for job_elem in job_elems:
 	date_posted =job_elem.find('time', datetime="2017-05-26T12:00")
 	if None in (title, company, location, date_posted):
 		continue
-	print(title.text)
-	print(company.text)
-	print(location.text)
-	print(date_posted.text)
-	print()
 
 
 titlelist = [element.text for element in soup.find_all("h2", "title")]
@@ -64,8 +58,6 @@ for x in locationlist:
 		citylist.append(" ")
 		statelist.append(" ")
 
-print(citylist)
-print(statelist)
 companylist = [element.text for element in soup.find_all("div","company")]
 readdf = pd.read_sql_table('Monster', database_connection)
 URLList = readdf['URL'].to_list()
@@ -78,5 +70,6 @@ for x in range(len(titlelist)):
 		URLList.append(jobUrl[x])
 
 
+print("Search Complete")
 
 
