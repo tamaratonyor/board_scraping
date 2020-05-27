@@ -1,14 +1,14 @@
-## SCRAPING
-Data Scraping of Monster, Indeed, GlassDoor, SimplyHired, and LinkedIn job boards in python
+SCRAPING
+Data Scraping of Monster job boards in python
 
-## WHAT IS IT?
+WHAT IS IT?
 This is a web scraping system. It aims to simplify data extraction from the web UI of different job boards namely Monster, Indeed, LinkedIn, SimplyHired and Glassdoor
 This allows users to focus on the data. It abstracts away the technical details and complexity of underlying technologies using python. It is extremely portable, extensible and fast.
 
-## INSTALLATION
+INSTALLATION
 Download the python scripts on this repositories master branch, for the respective job boards.
 
-## ENVIRONMENT
+ENVIRONMENT
 Users only need to run the python script and have the following python libraries installed on their system
 
 pandas
@@ -19,15 +19,15 @@ sqlalchemy
 pyspark
 selenium
 
-## FEATURES
+FEATURES
 User friendly language (python)
 Supports user entered job searches
 Simple installation and setup
 
-## MOTIVATION
+MOTIVATION
 There are serveral job boards that are updated seemingly by the minute. This makes it very difficult for users to search all of these boards and find jobs that suit their wants. With the tool developed, we allow users to enter a search parameter of a Job Title and ping the job board url, scraping the details of the results page and storing them in a MYSQL database that can be queried by the user as needed.
 
-## CHALLENGES OF WEB SCRAPING
+CHALLENGES OF WEB SCRAPING
 The Web has grown organically out of many sources. It combines a ton of different technologies, styles, and personalities, and it continues to grow to this day. In other words, the Web is kind of a hot mess! This can lead to a few challenges you’ll see when you try web scraping.
 
 One challenge is variety. Every website is different. While you’ll encounter general structures that tend to repeat themselves, each website is unique and will need its own personal treatment if you want to extract the information that’s relevant to you.
@@ -38,8 +38,8 @@ This is a realistic scenario, as many websites are in active development. Once t
 
 However, keep in mind that because the internet is dynamic, the scrapers you’ll build will probably require constant maintenance. You can set up continuous integration to run scraping tests periodically to ensure that your main script doesn’t break without your knowledge.
 
-## SCRAPING DESCRIPTION.
-The Monster, Indeed, SimplyHired, GlassDoor and LinkedIn websites serve static HTML content. On inspecting the webpage using developer tools, you'll find a few confusing parts. For example, you can scroll to the right to see the large number of attributes that the <a> element has. Luckily, the class names on the elements that we’re interested in are relatively straightforward:
+SCRAPING DESCRIPTION.
+The Monster website serves static HTML content. On inspecting the webpage using developer tools, you'll find a few confusing parts. For example, you can scroll to the right to see the large number of attributes that the <a> element has. Luckily, the class names on the elements that we’re interested in are relatively straightforward:
 
 class="title": the title of the job posting
 class="company": the company that offers the position
@@ -47,33 +47,22 @@ class="location": the location where you’d be working
 
 However, there are a few more challenging situations you might encounter when you’re scraping websites, such as pages hidden behind a login or the fact that the information on the page isn't on the HTML file (as in the case of Dice). Dynamic websites might also pose the same issue, as the server may not send back any HTML at all.
 
-## FIND ELEMENTS BY ID
+FIND ELEMENTS BY ID
 In an HTML web page, every element can have an id attribute assigned. As the name already suggests, that id attribute makes the element uniquely identifiable on the page. You can begin to parse your page by selecting a specific element by its ID.
 
 Switch back to developer tools and identify the HTML object that contains all of the job postings. Explore by hovering over parts of the page and using right-click to Inspect. When you use the element’s ID, you’re able to pick one element out from among the rest of the HTML. This allows you to work with only this specific part of the page’s HTML.
 
-## FIND ELEMENTS BY HTML CLASS NAME
+FIND ELEMENTS BY HTML CLASS NAME
 Seeing as every job posting is wrapped in a <section> element with the class card-content, we can work with the new Beautiful Soup object called results and select only the job postings. These are, after all, the parts of the HTML that we’re interested in.
 
-## XTRACT TEXT FROM HTML ELEMENTS
+EXTRACT TEXT FROM HTML ELEMENTS
 In trying to view the different elements that we require, 'Beautiful Soup' has got us covered. We only need to add .text to a Beautiful Soup object to return only the text content of the HTML elements that the object contains.
 
-## EXTRACT ATTRIBUTES FROM HTML ELEMENTS
+EXTRACT ATTRIBUTES FROM HTML ELEMENTS
 At this point, our Python script already scrapes the site and filters its HTML for job postings. However, one thing that’s still missing is the link to apply for a job.
 
 While inspecting the page, we found that the link is part of the element that has the title HTML class. The current code strips away the entire link when accessing the .text attribute of its parent element. As we’ve now seen, .text only contains the visible text content of an HTML element. Tags and attributes are not part of that. To get the actual URL, we want to extract one of those attributes. The URL is contained in the href attribute of the nested <a> tag, so we start by fetching the <a> element. Then, we extract the value of its href attribute using square-bracket notation.
 
-## STORAGE AND VISUALIZATION
+STORAGE AND VISUALIZATION
 Upon completion of the aforementioned steps, we create an individual list of all the elements, create a dataframe out of it, and store in a database of choice, from where we can read the data to perform further analysis and visualizations.
-
-
-## FEATURES
-* User friendly language (python)
-* Supports user entered job searches
-* Simple installation and setup
-
-
-## CONTRIBUTORS
-Thanks to everyone who contributed. Tamaratonyor (Tammy) Ebufegha, Usigbe (Usi) Ataga, Cesar (Niyombofils) Niyomugabo, Yuchen (Jessica) Zhou
-
 
