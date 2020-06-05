@@ -24,32 +24,39 @@ Download the python scripts on this repositories master branch, for the respecti
 2. Pull the image from the Docker repository.
 
 ### Pull the image
-
+```
 docker pull puckel/docker-airflow
-
+```
 ### Run the container
-
+```
 sudo docker run -p 8080:8080 -d -v ~/Desktop/docker/dags:/usr/local/airflow/dags puckel/docker-airflow webserver
 
 sudo docker exec -it <container name> bash
-
+```
 ### Terminal opens
 
 ## Type in the following commands to install packages:
+```
+pip install pandas 
 
-pip install pandas
 pip install pymysql
+
 pip install requests
+
 pip install sqlalchemy
 
+pip install bs4
+```
 ## Init aiflow
+```
 airflow initdb
 airflow scheduler
-
+```
 ## If ask for Fernet key
+```
 python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)"
 export AIRFLOW__CORE__FERNET_KEY=<fernet key>
-  
+```
 ## Run the task
 
 Open a web browser and type in localhost:8080
