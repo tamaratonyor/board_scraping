@@ -17,12 +17,13 @@ strdate = datetime.today().strftime("%d")
 if strdate == '1':
 	print("New Month... old table is being dropped and repopulated")
 	mycursor = database_connection.cursor()
-	sql = "DROP TABLE IF EXISTS JobPostings_DataScience"
-	mycursor.execute(sql)
+	sql = "DROP TABLE IF EXISTS JobPostings_DataEngineer"
+	mycursor.execute(sql) 
 
-paramlist = ["Machine%20Learning%20Engineer","Quantitative%20Analyst","Data%20Warehouse%20Architect","Business%20Intelligence%20Analyst","Statistician"]
+paramlist = ["Data%20Engineer","AWS%20Engineer","Big%20Data%20Engineer","Hadoop%20Engineer","Spark%20Engineer"]
+
 try:
-	df = pd.read_sql_table('JobPostings_DataScience', database_connection)
+	df = pd.read_sql_table('JobPostings_DataEngineer', database_connection)
 	if 'level_0' in df:
 		df = df.drop(columns=['level_0'])
 
@@ -175,7 +176,7 @@ try:
 		else:
 			print("SimplyHired page was misread, moving to next page")
 		df.drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last")
-		df.to_sql(con=database_connection, name='JobPostings_DataScience', if_exists='replace')
+		df.to_sql(con=database_connection, name='JobPostings_DataEngineer', if_exists='replace')
 
 except ValueError:
 	print("Table Does Not Already Exist... Creating Now")
@@ -330,7 +331,7 @@ except ValueError:
 		else:
 			print("SimplyHired page was misread, moving to next page")
 		df.drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last")
-		df.to_sql(con=database_connection, name='JobPostings_DataScience', if_exists='replace')
+		df.to_sql(con=database_connection, name='JobPostings_DataEngineer', if_exists='replace')
 
 
 
