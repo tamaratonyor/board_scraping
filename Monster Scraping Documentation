@@ -1,5 +1,5 @@
 SCRAPING
-Data Scraping of Monster job boards in python
+Data Scraping of Monster, Indeed, SimplyHired and LinkedIn job boards in python
 
 WHAT IS IT?
 This is a web scraping system. It aims to simplify data extraction from the web UI of different job boards namely Monster, Indeed, LinkedIn, SimplyHired and Glassdoor
@@ -39,7 +39,7 @@ This is a realistic scenario, as many websites are in active development. Once t
 However, keep in mind that because the internet is dynamic, the scrapers you’ll build will probably require constant maintenance. You can set up continuous integration to run scraping tests periodically to ensure that your main script doesn’t break without your knowledge.
 
 SCRAPING DESCRIPTION.
-The Monster website serves static HTML content. On inspecting the webpage using developer tools, you'll find a few confusing parts. For example, you can scroll to the right to see the large number of attributes that the <a> element has. Luckily, the class names on the elements that we’re interested in are relatively straightforward:
+The Monster, SimplyHired, Indeed, and LinkedIn website serves static HTML content. On inspecting the webpage using developer tools, you'll find a few confusing parts. For example, you can scroll to the right to see the large number of attributes that the <a> element has. Luckily, the class names on the elements that we’re interested in are relatively straightforward:
 
 class="title": the title of the job posting
 class="company": the company that offers the position
