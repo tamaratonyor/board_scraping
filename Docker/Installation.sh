@@ -7,7 +7,7 @@ sudo systemctl start docker
 sudo systemctl enable docker
 apt --fix-broken install 
 
-usermod -a -G docker my_user
+usermod -a -G docker <your user name>
 sudo systemctl restart docker
 
 cd ~
