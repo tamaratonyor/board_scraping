@@ -9,7 +9,7 @@ This allows users to focus on the data. It abstracts away the technical details 
 
 Please download the docker/installation.sh file and follow these steps:
 
- - Run the Installation.sh in Docker folder type in command without the quotations: "./Installation.sh"
+ - Run the Installation.sh in Docker folder type in command without the quotations: "bash ./Installation.sh"
 
  - Run the task: 
       1. Open a web browser and type in localhost:8080
