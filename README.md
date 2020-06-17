@@ -5,64 +5,17 @@ Data Scraping of Monster, Indeed, GlassDoor, SimplyHired, and LinkedIn job board
 This is a web scraping system. It aims to simplify data extraction from the web UI of different job boards namely Monster, Indeed, LinkedIn, SimplyHired and Glassdoor
 This allows users to focus on the data. It abstracts away the technical details and complexity of underlying technologies using python. It is extremely portable, extensible and fast.
 
-## ENVIRONMENT
-Users only need to run the python script and have the following python libraries installed on their system
+## Installation and set up
 
-pandas
-requests
-bs4
-BeautifulSoup
-sqlalchemy
-pyspark
-selenium
+Please download the docker/installation.sh file and follow these steps:
 
-## INSTALLATION
-Download the python scripts on this repositories master branch, for the respective job boards. Please refer to the Docker session. 
+ - Run the Installation.sh in Docker folder type in command without the quotations: "./Installation.sh"
 
-1. Run the Installation.sh in Docker folder type in command without the quotations: "./Installation.sh"
-
-2. Pull the image from the Docker repository.
-
-### Pull the image
-```
-docker pull puckel/docker-airflow
-```
-### Run the container
-```
-sudo docker run -p 8080:8080 -d -v ~/Desktop/docker/dags:/usr/local/airflow/dags puckel/docker-airflow webserver
-
-sudo docker exec -it <container name> bash
-```
-### Terminal opens
-
-## Type in the following commands to install packages:
-```
-pip install pandas 
-
-pip install pymysql
-
-pip install requests
-
-pip install sqlalchemy
-
-pip install bs4
-```
-## Init aiflow
-```
-airflow initdb
-airflow scheduler
-```
-## If ask for Fernet key
-```
-python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)"
-export AIRFLOW__CORE__FERNET_KEY=<fernet key>
-```
-## Run the task
-
-Open a web browser and type in localhost:8080
-find simple in the list of tasks
-hit the off switch next to the task name
-You can track the progress if you click the name of the task
+ - Run the task: 
+      1. Open a web browser and type in localhost:8080
+      2. find simple in the list of tasks
+      3. hit the off switch next to the task name
+      4. You can track the progress if you click the name of the task
 
 ## FEATURES
 User friendly language (python)
