@@ -10,17 +10,19 @@ import calendar
 database_password = 'Password'
 database_ip       = 'mydb.cqdk5nbfyybo.us-east-2.rds.amazonaws.com'
 database_port = '3306'
-database_connection = sqlalchemy.create_engine('mysql+pymysql://admin:{0}@{1}/mydb?host={1}?port={2}'.
-                                               format(database_password, database_ip, database_port))
-strdate = datetime.today().strftime("%d")
+database_name = 'mydb'
+database_user = 'admin'
+database_connection = sqlalchemy.create_engine('mysql+pymysql://{0}:{1}@{2}/{3}?host={2}?port={4}'.
+                                               format(database_user,database_password, database_ip,database_name ,database_port))
+strdate = datetime.today().strftime("%d,%H")
 
-if strdate == '1':
+if strdate == '1,9': #Drop old records on the 1st of the month at 9:00 am
 	print("New Month... old table is being dropped and repopulated")
 	mycursor = database_connection.cursor()
 	sql = "DROP TABLE IF EXISTS JobPostings_CyberSecurity"
 	mycursor.execute(sql) 
 
-paramlist = ["Security%20Analyst","Security%20Engineer","Security%20Architect","Security%20Administrator","Security%20Software%20Developer", "Cryptographer", "Cryptanalyst"]
+paramlist = ["Cyber%20Security%20Architect","Cyber%20Security%20Administrator", "Cryptographer", "Cryptanalyst", "Cyber%20Security%20Soc%20Analyst", "Cyber%20Security%20Engineer", "Cyber%20Security%20Penetration%20Tester"]
 
 try:
 	df = pd.read_sql_table('JobPostings_CyberSecurity', database_connection)
@@ -69,8 +71,8 @@ try:
 			else:
 				indeedrealdatelist.append((datetime.now() - timedelta(days = int(val))).strftime("%Y-%m-%d"))
 		if len(indeedlinklist) == len(indeedtitlelist) == len(indeedlocationlist) == len(indeedcompanylist) == len(indeedrealdatelist):		
-			dfindeed = pd.DataFrame({'Date': indeedrealdatelist,'Job_Title': indeedtitlelist, 'URL' : indeedlinklist,'Company': indeedcompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : indeedcitylist, 'State': indeedstatelist})
-			df = pd.concat([df,dfindeed],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last").reset_index(drop=True)
+			dfindeed = pd.DataFrame({'Date': indeedrealdatelist,'Job_Title': indeedtitlelist, 'URL' : indeedlinklist,'Company': indeedcompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : indeedcitylist, 'State': indeedstatelist, 'Department' : "Cybersecurity"})
+			df = pd.concat([df,dfindeed],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last").reset_index(drop=True)
 			print("Indeed " +searchval.replace("%20"," ") +" Search Complete.")
 		else:
 			print("Indeed Page was misread, moving to next page.")
@@ -101,9 +103,9 @@ try:
 				linkedinstatelist.append(" ")
 
 		if len(linkedinlinklist) == len(linkedintitlelist) == len(linkedinlocationlist) == len(linkedincompanylist) == len(linkedindatelist):
-			dflinkedin = pd.DataFrame({'Date': linkedindatelist,'Job_Title': linkedintitlelist, 'URL' : linkedinlinklist,'Company': linkedincompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : linkedincitylist, 'State': linkedinstatelist})
+			dflinkedin = pd.DataFrame({'Date': linkedindatelist,'Job_Title': linkedintitlelist, 'URL' : linkedinlinklist,'Company': linkedincompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : linkedincitylist, 'State': linkedinstatelist, 'Department': "Cybersecurity"})
 			print("LinkedIn " +searchval.replace("%20"," ") +" Search Complete.")
-			df = pd.concat([df,dflinkedin],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last").reset_index(drop=True)
+			df = pd.concat([df,dflinkedin],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last").reset_index(drop=True)
 
 		else:
 			print("LinkedIn page was misread, moving to next page")
@@ -140,9 +142,9 @@ try:
 			else:
 				monsterrealdatelist.append((datetime.now() - timedelta(days = int(val))).strftime("%Y-%m-%d"))
 		if len(monsterlinklist) == len(monstertitlelist) == len(monsterlocationlist) == len(monstercompanylist) == len(monsterrealdatelist):
-			dfmonster = pd.DataFrame({'Date': monsterrealdatelist,'Job_Title': monstertitlelist, 'URL' : monsterlinklist,'Company': monstercompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : monstercitylist, 'State': monsterstatelist})
+			dfmonster = pd.DataFrame({'Date': monsterrealdatelist,'Job_Title': monstertitlelist, 'URL' : monsterlinklist,'Company': monstercompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : monstercitylist, 'State': monsterstatelist, 'Department': "Cybersecurity"})
 			print("Monster " +searchval.replace("%20"," ") +" Search Complete.")
-			df = pd.concat([df,dfmonster],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last").reset_index(drop=True)
+			df = pd.concat([df,dfmonster],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last").reset_index(drop=True)
 		else:
 			print("Monster page was misread, moving to next page.")
 
@@ -170,19 +172,19 @@ try:
 		for time in soupsimply.find_all('time', datetime =True):
 			simplydatelist.append(time['datetime'])
 		if len(simplylinklist) == len(simplytitlelist) == len(simplylocationlist) == len(simplycompanylist) == len(simplydatelist):
-			dfsimply = pd.DataFrame({'Date': simplydatelist,'Job_Title': simplytitlelist, 'URL' : simplylinklist,'Company': simplycompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : simplycitylist, 'State': simplystatelist})
+			dfsimply = pd.DataFrame({'Date': simplydatelist,'Job_Title': simplytitlelist, 'URL' : simplylinklist,'Company': simplycompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : simplycitylist, 'State': simplystatelist, 'Department': "Cybersecurity"})
 			print("SimplyHired " +searchval.replace("%20"," ") +" Search Complete.")
-			df = pd.concat([df,dfsimply],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last").reset_index(drop=True)
+			df = pd.concat([df,dfsimply],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last").reset_index(drop=True)
 		else:
 			print("SimplyHired page was misread, moving to next page")
-		df.drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last")
+		df.drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last")
 		df.to_sql(con=database_connection, name='JobPostings_CyberSecurity', if_exists='replace')
 
 except ValueError:
 	print("Table Does Not Already Exist... Creating Now")
 	urllists = []
 	for searchval in paramlist:
-		df = pd.DataFrame(columns=['Date','Job_Title', 'URL', 'Company', 'Search_Parameter', 'City', 'State'])
+		df = pd.DataFrame(columns=['Date','Job_Title', 'URL', 'Company', 'Search_Parameter', 'City', 'State', 'Department'])
 		url1 = 'https://www.indeed.com/jobs?q={0}&start=0&fromage=30'.format(searchval)
 		x1 = requests.get(url1)
 		soupindeed = BeautifulSoup(x1.text, "html.parser")
@@ -224,8 +226,8 @@ except ValueError:
 			else:
 				indeedrealdatelist.append((datetime.now() - timedelta(days = int(val))).strftime("%Y-%m-%d"))
 		if len(indeedlinklist) == len(indeedtitlelist) == len(indeedlocationlist) == len(indeedcompanylist) == len(indeedrealdatelist):		
-			dfindeed = pd.DataFrame({'Date': indeedrealdatelist,'Job_Title': indeedtitlelist, 'URL' : indeedlinklist,'Company': indeedcompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : indeedcitylist, 'State': indeedstatelist})
-			df = pd.concat([df,dfindeed],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last").reset_index(drop=True)
+			dfindeed = pd.DataFrame({'Date': indeedrealdatelist,'Job_Title': indeedtitlelist, 'URL' : indeedlinklist,'Company': indeedcompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : indeedcitylist, 'State': indeedstatelist, 'Department': "Cybersecurity"})
+			df = pd.concat([df,dfindeed],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last").reset_index(drop=True)
 			print("Indeed " +searchval.replace("%20"," ") +" Search Complete.")
 		else:
 			print("Indeed Page was misread, moving to next page.")
@@ -256,9 +258,9 @@ except ValueError:
 				linkedinstatelist.append(" ")
 
 		if len(linkedinlinklist) == len(linkedintitlelist) == len(linkedinlocationlist) == len(linkedincompanylist) == len(linkedindatelist):
-			dflinkedin = pd.DataFrame({'Date': linkedindatelist,'Job_Title': linkedintitlelist, 'URL' : linkedinlinklist,'Company': linkedincompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : linkedincitylist, 'State': linkedinstatelist})
+			dflinkedin = pd.DataFrame({'Date': linkedindatelist,'Job_Title': linkedintitlelist, 'URL' : linkedinlinklist,'Company': linkedincompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : linkedincitylist, 'State': linkedinstatelist, 'Department' : "Cybersecurity"})
 			print("LinkedIn " +searchval.replace("%20"," ") +" Search Complete.")
-			df = pd.concat([df,dflinkedin],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last").reset_index(drop=True)
+			df = pd.concat([df,dflinkedin],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last").reset_index(drop=True)
 
 		else:
 			print("LinkedIn page was misread, moving to next page")
@@ -295,9 +297,9 @@ except ValueError:
 			else:
 				monsterrealdatelist.append((datetime.now() - timedelta(days = int(val))).strftime("%Y-%m-%d"))
 		if len(monsterlinklist) == len(monstertitlelist) == len(monsterlocationlist) == len(monstercompanylist) == len(monsterrealdatelist):
-			dfmonster = pd.DataFrame({'Date': monsterrealdatelist,'Job_Title': monstertitlelist, 'URL' : monsterlinklist,'Company': monstercompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : monstercitylist, 'State': monsterstatelist})
+			dfmonster = pd.DataFrame({'Date': monsterrealdatelist,'Job_Title': monstertitlelist, 'URL' : monsterlinklist,'Company': monstercompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : monstercitylist, 'State': monsterstatelist, 'Department': "Cybersecurity"})
 			print("Monster " +searchval.replace("%20"," ") +" Search Complete.")
-			df = pd.concat([df,dfmonster],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last").reset_index(drop=True)
+			df = pd.concat([df,dfmonster],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last").reset_index(drop=True)
 		else:
 			print("Monster page was misread, moving to next page.")
 
@@ -325,15 +327,10 @@ except ValueError:
 		for time in soupsimply.find_all('time', datetime =True):
 			simplydatelist.append(time['datetime'])
 		if len(simplylinklist) == len(simplytitlelist) == len(simplylocationlist) == len(simplycompanylist) == len(simplydatelist):
-			dfsimply = pd.DataFrame({'Date': simplydatelist,'Job_Title': simplytitlelist, 'URL' : simplylinklist,'Company': simplycompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : simplycitylist, 'State': simplystatelist})
+			dfsimply = pd.DataFrame({'Date': simplydatelist,'Job_Title': simplytitlelist, 'URL' : simplylinklist,'Company': simplycompanylist, 'Search_Parameter':searchval.replace("%20"," "), 'City' : simplycitylist, 'State': simplystatelist, 'Department': "Cybersecurity"})
 			print("SimplyHired " +searchval.replace("%20"," ") +" Search Complete.")
-			df = pd.concat([df,dfsimply],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last").reset_index(drop=True)
+			df = pd.concat([df,dfsimply],ignore_index=True).drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last").reset_index(drop=True)
 		else:
 			print("SimplyHired page was misread, moving to next page")
-		df.drop_duplicates(subset=['Job_Title','Company','City','State'], keep="last")
+		df.drop_duplicates(subset=['Job_Title','Company','City','State', 'Department'], keep="last")
 		df.to_sql(con=database_connection, name='JobPostings_CyberSecurity', if_exists='replace')
-
-
-
-
-
